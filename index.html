@@ -161,6 +161,132 @@
             font-weight: bold;
         }
         
+        /* デスクトップ用のスケジュールテーブル */
+        .schedule-table-desktop {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .schedule-table-desktop .table-header {
+            display: grid;
+            grid-template-columns: 120px 150px 1fr;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .schedule-table-desktop .table-row {
+            display: grid;
+            grid-template-columns: 120px 150px 1fr;
+            gap: 15px;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .schedule-table-desktop .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .schedule-table-desktop .table-row.highlight {
+            background: #e8f4f8;
+        }
+        
+        .schedule-table-desktop .table-row.lecture {
+            background: #f093fb;
+            color: white;
+        }
+        
+        .schedule-table-desktop .table-row.lunch {
+            background: #fff3cd;
+        }
+        
+        /* モバイル用のスケジュールカード */
+        .schedule-mobile {
+            display: none;
+        }
+        
+        .schedule-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .schedule-item-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .schedule-item-header:hover {
+            background: #e9ecef;
+        }
+        
+        .schedule-item-header.highlight {
+            background: #e8f4f8;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .schedule-item-header.lecture {
+            background: #f093fb;
+            color: white;
+        }
+        
+        .schedule-item-header.lunch {
+            background: #fff3cd;
+        }
+        
+        .schedule-time {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #e74c3c;
+        }
+        
+        .lecture .schedule-time {
+            color: white;
+        }
+        
+        .schedule-title {
+            font-weight: bold;
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+        
+        .schedule-arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2em;
+        }
+        
+        .schedule-arrow.expanded {
+            transform: rotate(180deg);
+        }
+        
+        .schedule-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .schedule-content.expanded {
+            max-height: 200px;
+            padding: 15px;
+        }
+        
+        .schedule-detail {
+            color: #666;
+            line-height: 1.5;
+        }
+        
         .lecture-card {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
@@ -232,9 +358,26 @@
             margin-top: 30px;
         }
         
+        /* レスポンシブ対応 */
         @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 20px 10px;
+            }
+            
             .header h1 {
-                font-size: 2em;
+                font-size: 1.8em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .card {
+                padding: 15px;
             }
             
             .booth-grid {
@@ -244,6 +387,35 @@
             .lecture-info {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* モバイルでテーブルを非表示にしてカード表示 */
+            .schedule-table-desktop {
+                display: none;
+            }
+            
+            .schedule-mobile {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .card h2 {
+                font-size: 1.4em;
+            }
+            
+            .btn {
+                display: block;
+                text-align: center;
+                margin: 10px 0;
             }
         }
     </style>
@@ -286,187 +458,560 @@
             
             <div class="day-section">
                 <div class="day-header">9月11日（木）</div>
-                <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 15px; border-bottom: 1px solid #eee; background: #f8f9fa; font-weight: bold;">
+                
+                <!-- デスクトップ用テーブル -->
+                <div class="schedule-table-desktop">
+                    <div class="table-header">
                         <div>時間</div>
                         <div>項目</div>
                         <div>詳細</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>8:30-10:00</div>
                         <div>会場設営</div>
                         <div>アラキE、藤本工業、東洋鉄工所、スギノマシン</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>10:00-12:00</div>
                         <div>出展社企業設営</div>
                         <div>搬入経路は上記「荷物搬入について」を参照</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>12:00-13:00</div>
                         <div>昼食</div>
                         <div>お弁当（実費）事前注文</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee; background: #e8f4f8;">
+                    <div class="table-row highlight">
                         <div>13:00-</div>
                         <div>開始</div>
                         <div><strong>開会の挨拶</strong>　北嶋理事長</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee; background: #f093fb; color: white;">
+                    <div class="table-row lecture">
                         <div>14:00-14:45</div>
                         <div>基調講演</div>
                         <div><strong>北嶋先生</strong>「バリ取り、エッジ仕上げの勘どころ」</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>14:45-15:00</div>
                         <div>出展企業説明</div>
                         <div>株式会社プライオリティ</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>15:00-15:15</div>
                         <div>出展企業説明</div>
                         <div>株式会社スギノマシン</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>15:15-15:30</div>
                         <div>出展企業説明</div>
                         <div>株式会社トクピ製作所</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>15:30-15:45</div>
                         <div>出展企業説明</div>
                         <div>株式会社横浜ネプロス</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>15:45-16:00</div>
                         <div>出展企業説明</div>
                         <div>株式会社ブルー・スターR&D</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee; background: #e8f4f8;">
+                    <div class="table-row highlight">
                         <div>-17:00</div>
                         <div>終了</div>
                         <div></div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>17:00-</div>
                         <div>移動</div>
                         <div>懇親会会場へ</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; background: #fff3cd;">
+                    <div class="table-row lunch">
                         <div>18:30-</div>
                         <div>懇親会</div>
                         <div><strong>遠州男唄 濱松たんと本店</strong><br>参加費: 6,000円（税込み・1名）</div>
+                    </div>
+                </div>
+                
+                <!-- モバイル用カード -->
+                <div class="schedule-mobile">
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">8:30-10:00</span>
+                            <span class="schedule-title">会場設営</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">アラキE、藤本工業、東洋鉄工所、スギノマシン</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">10:00-12:00</span>
+                            <span class="schedule-title">出展社企業設営</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">搬入経路は上記「荷物搬入について」を参照</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">12:00-13:00</span>
+                            <span class="schedule-title">昼食</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">お弁当（実費）事前注文</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header highlight" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">13:00-</span>
+                            <span class="schedule-title">開始</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail"><strong>開会の挨拶</strong>　北嶋理事長</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header lecture" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">14:00-14:45</span>
+                            <span class="schedule-title">基調講演</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail"><strong>北嶋先生</strong>「バリ取り、エッジ仕上げの勘どころ」</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">14:45-15:00</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社プライオリティ</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">15:00-15:15</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社スギノマシン</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">15:15-15:30</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社トクピ製作所</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">15:30-15:45</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社横浜ネプロス</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">15:45-16:00</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社ブルー・スターR&D</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header highlight" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">-17:00</span>
+                            <span class="schedule-title">終了</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">イベント終了</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">17:00-</span>
+                            <span class="schedule-title">移動</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">懇親会会場へ</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header lunch" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">18:30-</span>
+                            <span class="schedule-title">懇親会</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail"><strong>遠州男唄 濱松たんと本店</strong><br>参加費: 6,000円（税込み・1名）</div>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="day-section">
                 <div class="day-header">9月12日（金）</div>
-                <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 15px; border-bottom: 1px solid #eee; background: #f8f9fa; font-weight: bold;">
+                
+                <!-- デスクトップ用テーブル -->
+                <div class="schedule-table-desktop">
+                    <div class="table-header">
                         <div>時間</div>
                         <div>項目</div>
                         <div>詳細</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>9:00-</div>
                         <div>準備</div>
                         <div></div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>9:50-10:00</div>
                         <div>朝礼</div>
                         <div></div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee; background: #e8f4f8;">
+                    <div class="table-row highlight">
                         <div>10:00-</div>
                         <div>開始</div>
                         <div></div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee; background: #f093fb; color: white;">
+                    <div class="table-row lecture">
                         <div>10:00-10:45</div>
                         <div>基調講演</div>
                         <div><strong>當舎先生</strong>「金属を叩いて丈夫にするショットピーニング技術」</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>10:45-11:00</div>
                         <div>出展企業説明</div>
                         <div>東洋研磨材工業株式会社</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>11:00-11:15</div>
                         <div>出展企業説明</div>
                         <div>マコー株式会社</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>11:15-11:30</div>
                         <div>出展企業説明</div>
                         <div>株式会社バーテック</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>11:30-11:45</div>
                         <div>出展企業説明</div>
                         <div>株式会社ジーベックテクノロジー</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>11:45-12:00</div>
                         <div>出展企業説明</div>
                         <div>ステイト工業株式会社</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee; background: #fff3cd;">
+                    <div class="table-row lunch">
                         <div>12:00-13:00</div>
                         <div>昼食・展示会中</div>
                         <div>お弁当（実費）事前注文</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>13:00-13:15</div>
                         <div>出展企業説明</div>
                         <div>株式会社オカスギ</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>13:15-13:30</div>
                         <div>出展企業説明</div>
                         <div>株式会社ムラキ</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>13:30-13:45</div>
                         <div>出展企業説明</div>
                         <div>株式会社開明製作所</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>13:45-14:00</div>
                         <div>出展企業説明</div>
                         <div>スリーエムジャパン株式会社</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>14:00-14:15</div>
                         <div>出展企業説明</div>
                         <div>カトウ工機株式会社</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>14:15-14:30</div>
                         <div>出展企業説明</div>
                         <div>日東工器株式会社</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>14:30-14:45</div>
                         <div>出展企業説明</div>
                         <div>藤本工業株式会社</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee;">
+                    <div class="table-row">
                         <div>14:45-15:00</div>
                         <div>出展企業説明</div>
                         <div>株式会社アラキエンジニアリング</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #eee; background: #e8f4f8;">
+                    <div class="table-row highlight">
                         <div>-16:00</div>
                         <div>終了</div>
                         <div><strong>閉会の挨拶</strong>　中野専務理事</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 120px 150px 1fr; gap: 15px; padding: 12px 15px;">
+                    <div class="table-row">
                         <div>16:00-17:00</div>
                         <div>片付け</div>
                         <div>出展社による撤去作業</div>
+                    </div>
+                </div>
+                
+                <!-- モバイル用カード -->
+                <div class="schedule-mobile">
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">9:00-</span>
+                            <span class="schedule-title">準備</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">準備開始</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">9:50-10:00</span>
+                            <span class="schedule-title">朝礼</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">朝礼・準備確認</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header highlight" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">10:00-</span>
+                            <span class="schedule-title">開始</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">2日目開始</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header lecture" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">10:00-10:45</span>
+                            <span class="schedule-title">基調講演</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail"><strong>當舎先生</strong>「金属を叩いて丈夫にするショットピーニング技術」</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">10:45-11:00</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">東洋研磨材工業株式会社</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">11:00-11:15</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">マコー株式会社</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">11:15-11:30</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社バーテック</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">11:30-11:45</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社ジーベックテクノロジー</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">11:45-12:00</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">ステイト工業株式会社</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header lunch" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">12:00-13:00</span>
+                            <span class="schedule-title">昼食・展示会中</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">お弁当（実費）事前注文</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">13:00-13:15</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社オカスギ</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">13:15-13:30</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社ムラキ</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">13:30-13:45</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社開明製作所</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">13:45-14:00</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">スリーエムジャパン株式会社</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">14:00-14:15</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">カトウ工機株式会社</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">14:15-14:30</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">日東工器株式会社</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">14:30-14:45</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">藤本工業株式会社</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">14:45-15:00</span>
+                            <span class="schedule-title">出展企業説明</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">株式会社アラキエンジニアリング</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header highlight" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">-16:00</span>
+                            <span class="schedule-title">終了</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail"><strong>閉会の挨拶</strong>　中野専務理事</div>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <div class="schedule-item-header" onclick="toggleSchedule(this)">
+                            <span class="schedule-time">16:00-17:00</span>
+                            <span class="schedule-title">片付け</span>
+                            <span class="schedule-arrow">▼</span>
+                        </div>
+                        <div class="schedule-content">
+                            <div class="schedule-detail">出展社による撤去作業</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -581,5 +1126,20 @@
             <p>本イベントに関するご質問は、事務局までお気軽にお問い合わせください。</p>
         </div>
     </div>
+
+    <script>
+        function toggleSchedule(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.schedule-arrow');
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                arrow.classList.remove('expanded');
+            } else {
+                content.classList.add('expanded');
+                arrow.classList.add('expanded');
+            }
+        }
+    </script>
 </body>
 </html>
